@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Status : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
         currentSkill -= raduce;
         UpdateUI();
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
