@@ -5,48 +5,49 @@ using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int currentHealth;
+    public int playerHP = 100;
+    private int currentHP;
+    private Text textHP;
 
-    public int maxSkill = 3;
-    private int currentSkill;
+    public int playerSP = 10;
+    private int currentSP;
+    private Text textSP;
 
-    private bool useSkill = true;
-
-    private Text textGameOver;
-
-    private void Start()
+    //現在のHPとSP
+    void Start()
     {
-        currentHealth = maxHealth;
-        currentSkill = maxSkill;
-        textGameOver.enabled = false;
+        currentHP = playerHP;
+        currentSP = playerSP;
+        StatusUI();
     }
 
-    public void TakeDamage(int damageAmount)
+    //ダメージを受ける
+    public void TakeDamage(int damage)
     {
-        currentHealth -= damageAmount;
-
-        if(currentHealth <= 0)
+        currentHP -= damage;
+        if (currentHP < 0)
         {
-            Die();
+            currentHP = 0;
         }
+
+        StatusUI();
     }
 
-    public void UseSkill()
+    //スキルを使用
+    public void UsesSkill(int spCost)
     {
-        if(useSkill && currentSkill > 0)
+        currentSP -= spCost;
+        if (currentSP < 0)
         {
-            currentSkill--;
+            currentSP = 0;
         }
 
-        if(currentSkill == 0)
-        {
-            useSkill = false;
-        }
+        StatusUI();
     }
 
-    void Die()
+    void StatusUI()
     {
-        textGameOver.enabled = true;
+        textHP.text = "HP:" + currentHP;
+        textSP.text = "SP:" + currentSP;
     }
 }
