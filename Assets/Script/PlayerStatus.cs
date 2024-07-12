@@ -7,11 +7,11 @@ public class PlayerStatus : MonoBehaviour
 {
     public int playerHP = 100;
     private int currentHP;
-    private Text textHP;
+    public Text textHP;
 
     public int playerSP = 10;
-    private int currentSP;
-    private Text textSP;
+    public int currentSP;
+    public Text textSP;
 
     //Œ»Ý‚ÌHP‚ÆSP
     void Start()
@@ -45,9 +45,20 @@ public class PlayerStatus : MonoBehaviour
         StatusUI();
     }
 
+    public void HPheal(int healAmount)
+    {
+        currentHP += playerHP;
+        if (currentHP > playerHP)
+        {
+            currentHP = playerHP;
+        }
+
+        StatusUI();
+    }
+
     void StatusUI()
     {
-        textHP.text = "HP:" + currentHP;
-        textSP.text = "SP:" + currentSP;
+        textHP.text = $"HP: {currentHP}/{playerHP}";
+        textSP.text = $"SP: {currentSP}/{playerSP}";
     }
 }
