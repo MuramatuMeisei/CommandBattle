@@ -46,4 +46,13 @@ public class PlayerStatus : MonoBehaviour
             return false;
         }
     }
+
+    public void Heal(int healAmount)
+    {
+        CurrentHP += healAmount;
+        if(CurrentHP > maxHP)
+        {
+            CurrentHP = maxHP;
+        }
+    }
 }
