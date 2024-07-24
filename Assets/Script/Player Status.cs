@@ -18,6 +18,7 @@ public class PlayerStatus : MonoBehaviour
         CurrentSP = maxSP;
     }
 
+    //ダメージを受けたらHPを減らす
     public void Damage(int damage)
     {
         CurrentHP -= damage;
@@ -32,6 +33,7 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    //スキルを使用したらSPCOSTを減らす
     public bool Skill(int spCost)
     {
         if(CurrentSP >= spCost)
@@ -47,6 +49,7 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    //HPを回復
     public void Heal(int healAmount)
     {
         CurrentHP += healAmount;
