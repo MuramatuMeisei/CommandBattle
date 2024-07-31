@@ -27,6 +27,8 @@ public class PlayerCommand : MonoBehaviour
     public void AttackCommand(Enemy target)
     {
         target.Damage(attackPower);
+        Debug.Log("アタック");
+        EndTurn();
     }
 
     public void SkillCommand(Enemy target)
@@ -43,6 +45,8 @@ public class PlayerCommand : MonoBehaviour
             {
                 Debug.Log("回避失敗");
             }
+
+            EndTurn();
         }
     }
 
@@ -59,6 +63,8 @@ public class PlayerCommand : MonoBehaviour
         {
             Debug.Log("どうぐがありません");
         }
+
+        EndTurn();
     }
 
     public void TakeEnemyDamage(int damage, Enemy enemy)
@@ -75,5 +81,10 @@ public class PlayerCommand : MonoBehaviour
             playerStatus.Damage(damage);
             Debug.Log("敵からのダメージ");
         }
+    }
+
+    void EndTurn()
+    {
+        FindObjectOfType<BattleManager>().EndEnemyTurn();
     }
 }
