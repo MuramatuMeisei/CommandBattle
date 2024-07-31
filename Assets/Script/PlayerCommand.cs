@@ -15,6 +15,8 @@ public class PlayerCommand : MonoBehaviour
 
     public Text textHP;
     public Text textSP;
+    public Text gameOverText;
+    public Text clearText;
 
     private void Start()
     {
@@ -22,12 +24,19 @@ public class PlayerCommand : MonoBehaviour
         skillButton.onClick.AddListener(OnSkillButtonClick);
         itemButton.onClick.AddListener(OnItemButtonClick);
 
+        gameOverText.gameObject.SetActive(false);
+        clearText.gameObject.SetActive(false);
+
         UpdateUI();
     }
 
     private void Update()
     {
         UpdateUI();
+
+        GameOver();
+
+        Clear();
     }
 
     void OnAttackButtonClick()
@@ -71,5 +80,27 @@ public class PlayerCommand : MonoBehaviour
     {
         textHP.text = $"HP: {playerStatus.HP}";
         textSP.text = $"SP: {playerStatus.SP}";
+    }
+
+    void GameOver()
+    {
+        if(playerStatus.HP <= 0)
+        {
+            gameOverText.gameObject.SetActive(true);
+            attackButton.interactable = false;
+            skillButton.interactable = false;
+            itemButton.interactable = false;
+        }
+    }
+
+    void Clear()
+    {
+        if (enemyStatus.HP <= 0)
+        {
+            gameOverText.gameObject.SetActive(true);
+            attackButton.interactable = false;
+            skillButton.interactable = false;
+            itemButton.interactable = false;
+        }
     }
 }
