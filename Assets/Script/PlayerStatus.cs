@@ -10,6 +10,8 @@ public class PlayerStatus : MonoBehaviour
     public int SP { get; private set; } = 10;
     public int Item { get; private set; } = 5;
 
+    private EnemyStatus enemyStatus;
+
     public Text gameOverText;
     public Text hpText;
     public Text spText;
@@ -23,7 +25,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void Start()
     {
-        if(gameOverText != null)
+        if (gameOverText != null)
         {
             gameOverText.enabled = false;
         }
@@ -36,13 +38,16 @@ public class PlayerStatus : MonoBehaviour
         attackButton.onClick.AddListener(playerCommands.Attack);
         skillButton.onClick.AddListener(playerCommands.Skill);
         itemButton.onClick.AddListener(playerCommands.Item);
+
+        enemyStatus = FindObjectOfType<EnemyStatus>();
     }
 
     public void TakeDamage(int damage)
     {
         HP -= damage;
+        UpdateUI(); // HPが減少した後にUIを更新
 
-        if(HP <= 0)
+        if (HP <= 0)
         {
             HP = 0;
             GameOver();
@@ -51,20 +56,37 @@ public class PlayerStatus : MonoBehaviour
 
     private void GameOver()
     {
-        if(gameOverText != null)
+        if (gameOverText != null)
         {
             gameOverText.enabled = true;
         }
+
+        // ゲーム終了処理
+        Debug.Log("Game Over!");
     }
 
     public void UseSkill()
     {
-        if(SP > 0)
+        if (SP > 0)
         {
             SP--;
-            UpdateUI();
-        }
+            UpdateUI(); // SPを使用した後にUIを更新
 
+            bool isReflected = UnityEngine.Random.Range(0f, 1f) <= 0.8f;
+
+            if (isReflected)
+            {
+                Debug.Log("成功　敵の攻撃を跳ね返す");
+                if (enemyStatus != null)
+                {
+                    enemyStatus.EnemyTakeDamage(10); // 敵にダメージを与える
+                }
+            }
+            else
+            {
+                Debug.Log("失敗 もっと修行しろ!!");
+            }
+        }
         else
         {
             Debug.Log("スキルポイントが不足しています");
@@ -73,17 +95,17 @@ public class PlayerStatus : MonoBehaviour
 
     public void UpdateUI()
     {
-        if(spText != null)
+        if (spText != null)
         {
             spText.text = "SP: " + SP;
         }
 
-        if(hpText != null)
+        if (hpText != null)
         {
             hpText.text = "HP: " + HP;
         }
 
-        if(itemText != null)
+        if (itemText != null)
         {
             itemText.text = "Item: " + Item;
         }
@@ -92,18 +114,18 @@ public class PlayerStatus : MonoBehaviour
     public void ChangeHP(int amount)
     {
         HP = Mathf.Clamp(HP + amount, 0, 100);
-        UpdateUI();
+        UpdateUI(); // HPが変更された後にUIを更新
     }
 
     public void ChangeSP(int amount)
     {
         SP = Mathf.Clamp(SP + amount, 0, 10);
-        UpdateUI();
+        UpdateUI(); // SPが変更された後にUIを更新
     }
 
     public void ChangeItem(int amount)
     {
         Item = Mathf.Clamp(Item + amount, 0, 5);
-        UpdateUI();
+        UpdateUI(); // アイテム数が変更された後にUIを更新
     }
 }
