@@ -1182,7 +1182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1665260932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1473,6 +1473,7 @@ GameObject:
   - component: {fileID: 1865584958}
   - component: {fileID: 1865584957}
   - component: {fileID: 1865584956}
+  - component: {fileID: 1865584960}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1566,6 +1567,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1865584960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865584955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6bd8de3d8b58648b35323c6952434c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearText: {fileID: 1665260933}
 --- !u!1 &1954604407
 GameObject:
   m_ObjectHideFlags: 0
