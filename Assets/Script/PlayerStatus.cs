@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
-    //プレイヤーのHP
+    //HP
     public int maxHP = 100;
     public int currentHP;
 
-    //プレイヤーのSP
+    //SP
     public int maxSP = 10;
     public int currentSP;
 
