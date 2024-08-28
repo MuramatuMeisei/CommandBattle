@@ -11,6 +11,7 @@ public class TurnManager : MonoBehaviour
     public PlayerCommand playerCommand;
 
     private bool isPlayerTurn = true;
+    private bool skillSuccessful = false;
 
     void Awake()
     {
@@ -34,10 +35,16 @@ public class TurnManager : MonoBehaviour
         return isPlayerTurn;
     }
 
+    public void SetSkillSuccessful(bool successful)
+    {
+        skillSuccessful = successful;
+    }
+
     void StartPlayerTurn()
     {
         isPlayerTurn = true;
         EnablePlayerCommands(true);
+        skillSuccessful = false; // プレイヤーのターン開始時にスキル成功フラグをリセット
     }
 
     public void EndPlayerTurn()
@@ -51,9 +58,18 @@ public class TurnManager : MonoBehaviour
     {
         if (enemyStatus.currentHP > 0 && playerStatus.currentHP > 0)
         {
-            Debug.Log("敵からの攻撃:プレイヤーに10のダメージ");
-            int damage = 10; // 敵の攻撃力
-            playerStatus.TakeDamage(damage);
+            if (skillSuccessful) // スキルが成功した場合
+            {
+                Debug.Log("敵に10のダメージ");
+                int damage = 10; // スキル成功時に敵に与えるダメージ
+                enemyStatus.TakeDamage(damage);
+            }
+            else // スキルが失敗した場合
+            {
+                Debug.Log("敵の攻撃");
+                int damage = 10; // 敵の攻撃力
+                playerStatus.TakeDamage(damage);
+            }
 
             // 敵のターン終了
             EndEnemyTurn();

@@ -26,7 +26,7 @@ public class PlayerCommand : MonoBehaviour
             // 敵にダメージを与える処理
             int damage = 10; // 攻撃のダメージ量
             enemyStatus.TakeDamage(damage);
-            Debug.Log("プレイヤーの攻撃:相手に10のダメージ");
+            Debug.Log("敵に10のダメージ");
             EndPlayerTurn();
         }
     }
@@ -38,20 +38,22 @@ public class PlayerCommand : MonoBehaviour
             // スキルを使用する処理
             bool skillSuccessful = Random.value < 0.8f; // 80%の確率でスキル成功
 
+            TurnManager.Instance.SetSkillSuccessful(skillSuccessful);
+
             if (skillSuccessful)
             {
-                Debug.Log("スキル発動:相手の攻撃を跳ね返す");
-                ReflectEnemyAttack();
+                Debug.Log("敵の攻撃を跳ね返す");
             }
             else
             {
-                Debug.Log("スキル発動:失敗");
-                EndPlayerTurn();
+                Debug.Log("失敗");
             }
+
+            EndPlayerTurn();
         }
         else
         {
-            Debug.Log("SPが足りない");
+            Debug.Log("SPがありません");
         }
     }
 
@@ -63,7 +65,7 @@ public class PlayerCommand : MonoBehaviour
             int healAmount = 20; // 回復量
             playerStatus.Heal(healAmount);
             playerStatus.itemCount--; // アイテムを1つ消費
-            Debug.Log("どうぐを使用:体力が20回復した");
+            Debug.Log("HPを20回復");
             playerStatus.UpdateUI(); // UIを更新
 
             if (playerStatus.itemCount <= 0)
@@ -77,14 +79,6 @@ public class PlayerCommand : MonoBehaviour
         {
             Debug.Log("どうぐがありません");
         }
-    }
-
-    void ReflectEnemyAttack()
-    {
-        int damage = 20; // 敵の攻撃力（例）
-        enemyStatus.TakeDamage(damage);
-        Debug.Log("敵からの攻撃を跳ね返す");
-        EndPlayerTurn();
     }
 
     void EndPlayerTurn()
