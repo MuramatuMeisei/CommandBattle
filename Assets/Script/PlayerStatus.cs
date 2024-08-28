@@ -5,84 +5,65 @@ using UnityEngine.UI;
 
 public class PlayerStatus : MonoBehaviour
 {
-    //HP
+    public int currentHP = 100;
     public int maxHP = 100;
-    public int currentHP;
-
-    //SP
+    public int currentSP = 10;
     public int maxSP = 10;
-    public int currentSP;
-
-    //アイテムの所持数
-    public int itemCount = 5;
-
-    //UIテキスト
     public Text hpText;
     public Text spText;
-    public Text itemText;
-    public Text gameOverText;
+    public Text itemCountText;
+    public int itemCount = 5;
 
-    private void Start()
+    void Start()
     {
         currentHP = maxHP;
         currentSP = maxSP;
-
         UpdateUI();
-
-        gameOverText.gameObject.SetActive(false);
     }
 
-    //ダメージ
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
-
-        if(currentHP <= 0)
-        {
-            currentHP = 0;
-            GameOver();
-        }
+        if (currentHP < 0) currentHP = 0;
+        UpdateUI();
     }
 
-    //回復
     public void Heal(int amount)
     {
-        if(itemCount > 0)
-        {
-            currentHP += amount;
-
-            if(currentHP > maxSP)
-            {
-                currentHP = maxHP;
-            }
-
-            itemCount--;
-        }
+        currentHP += amount;
+        if (currentHP > maxHP) currentHP = maxHP;
+        UpdateUI();
     }
 
-    //SPの消費
     public bool UseSkill()
     {
-        if(currentSP > 0)
+        if (currentSP > 0)
         {
             currentSP--;
+            UpdateUI();
             return true;
         }
-
         return false;
     }
 
-    //更新UI
-    void UpdateUI()
+    public void UpdateUI()
     {
-        hpText.text = "HP: " + currentHP;
-        spText.text = "SP: " + currentSP;
-        itemText.text = "Item " + itemCount;
+        if (hpText != null)
+        {
+            hpText.text = "HP: " + currentHP;
+        }
+        if (spText != null)
+        {
+            spText.text = "SP: " + currentSP;
+        }
+        if (itemCountText != null)
+        {
+            itemCountText.text = "Items: " + itemCount;
+        }
     }
 
-    void GameOver()
+    public bool IsTurn()
     {
-        gameOverText.gameObject.SetActive(true);
-        Debug.Log("GameOver");
+        return TurnManager.Instance.IsPlayerTurn();
     }
 }

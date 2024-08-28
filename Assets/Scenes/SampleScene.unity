@@ -896,6 +896,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1066311254}
+  - component: {fileID: 1066311255}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -918,6 +919,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066311255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066311253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5585d262e1142745a96609f41981cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatus: {fileID: 1841532826}
+  enemyStatus: {fileID: 1865584960}
+  playerCommand: {fileID: 1841532827}
 --- !u!1 &1069494558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,7 +1230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1499466920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1293,7 +1309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1665260932
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1474,15 +1490,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad01352acc66894da35e9d310aa4654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
   currentHP: 0
-  maxSP: 10
+  maxHP: 100
   currentSP: 0
+  maxSP: 10
   itemCount: 5
   hpText: {fileID: 2084327172}
   spText: {fileID: 680281782}
-  itemText: {fileID: 1860887267}
-  gameOverText: {fileID: 1499466921}
+  itemCountText: {fileID: 1860887267}
 --- !u!114 &1841532827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,6 +1512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 1841532826}
   enemyStatus: {fileID: 1865584960}
+  turnManager: {fileID: 1066311255}
   attackButton: {fileID: 944665294}
   skillButton: {fileID: 594025023}
   itemButton: {fileID: 1114408057}
@@ -1697,10 +1713,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6bd8de3d8b58648b35323c6952434c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 150
   currentHP: 0
-  hpText: {fileID: 1323412946}
-  clearText: {fileID: 1665260933}
+  maxHP: 150
+  enemyHpText: {fileID: 1323412946}
 --- !u!1 &1954604407
 GameObject:
   m_ObjectHideFlags: 0
