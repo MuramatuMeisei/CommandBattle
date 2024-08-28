@@ -1368,6 +1368,7 @@ GameObject:
   - component: {fileID: 1841532823}
   - component: {fileID: 1841532822}
   - component: {fileID: 1841532826}
+  - component: {fileID: 1841532827}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1482,6 +1483,23 @@ MonoBehaviour:
   spText: {fileID: 680281782}
   itemText: {fileID: 1860887267}
   gameOverText: {fileID: 1499466921}
+--- !u!114 &1841532827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841532821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b81a8707e871d49805125d8bf839cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatus: {fileID: 1841532826}
+  enemyStatus: {fileID: 1865584960}
+  attackButton: {fileID: 944665294}
+  skillButton: {fileID: 594025023}
+  itemButton: {fileID: 1114408057}
 --- !u!1 &1860887265
 GameObject:
   m_ObjectHideFlags: 0
