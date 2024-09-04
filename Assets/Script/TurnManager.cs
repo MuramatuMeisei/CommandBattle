@@ -43,40 +43,39 @@ public class TurnManager : MonoBehaviour
     void StartPlayerTurn()
     {
         isPlayerTurn = true;
-        EnablePlayerCommands(true);
-        skillSuccessful = false; // プレイヤーのターン開始時にスキル成功フラグをリセット
+        playerCommand.EnableCommandButtons(true);
+        skillSuccessful = false;
     }
 
     public void EndPlayerTurn()
     {
         isPlayerTurn = false;
-        EnablePlayerCommands(false);
-        Invoke("StartEnemyTurn", 1f); // 敵のターンを少し遅れて開始する
+        playerCommand.EnableCommandButtons(false);
+        Invoke("StartEnemyTurn", 1f);
     }
 
     void StartEnemyTurn()
     {
         if (enemyStatus.currentHP > 0 && playerStatus.currentHP > 0)
         {
-            if (skillSuccessful) // スキルが成功した場合
+            if (skillSuccessful)
             {
                 Debug.Log("敵に10のダメージ");
-                int damage = 10; // スキル成功時に敵に与えるダメージ
+                int damage = 10;
                 enemyStatus.TakeDamage(damage);
             }
-            else // スキルが失敗した場合
+            else
             {
                 Debug.Log("敵の攻撃");
-                int damage = 10; // 敵の攻撃力
+                int damage = 10;
                 playerStatus.TakeDamage(damage);
             }
 
-            // 敵のターン終了
             EndEnemyTurn();
         }
         else
         {
-            EndEnemyTurn(); // ゲームオーバーまたはクリア状態で敵のターンを終了
+            EndEnemyTurn();
         }
     }
 
@@ -89,19 +88,10 @@ public class TurnManager : MonoBehaviour
         else if (playerStatus.currentHP <= 0)
         {
             Debug.Log("Game Over");
-            // Game Over処理
         }
         else if (enemyStatus.currentHP <= 0)
         {
             Debug.Log("Clear");
-            // ゲームクリア処理
         }
-    }
-
-    void EnablePlayerCommands(bool enable)
-    {
-        playerCommand.attackButton.interactable = enable;
-        playerCommand.skillButton.interactable = enable;
-        playerCommand.itemButton.interactable = enable;
     }
 }

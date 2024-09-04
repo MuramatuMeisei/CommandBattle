@@ -12,32 +12,71 @@ public class PlayerCommand : MonoBehaviour
     public Button skillButton;
     public Button itemButton;
 
+    public GameObject confirmationPanel;
+    public Button doButton;
+    public Button dontButton;
+
+    private enum CommandType { None, Attack, Skill, Item }
+    private CommandType selectedCommand = CommandType.None;
+
     void Start()
     {
-        attackButton.onClick.AddListener(OnAttackButtonClicked);
-        skillButton.onClick.AddListener(OnSkillButtonClicked);
-        itemButton.onClick.AddListener(OnItemButtonClicked);
+        attackButton.onClick.AddListener(() => OnCommandButtonClicked(CommandType.Attack));
+        skillButton.onClick.AddListener(() => OnCommandButtonClicked(CommandType.Skill));
+        itemButton.onClick.AddListener(() => OnCommandButtonClicked(CommandType.Item));
+
+        doButton.onClick.AddListener(OnDoButtonClicked);
+        dontButton.onClick.AddListener(OnDontButtonClicked);
+
+        confirmationPanel.SetActive(false);
     }
 
-    void OnAttackButtonClicked()
+    void OnCommandButtonClicked(CommandType commandType)
     {
         if (playerStatus.IsTurn())
         {
-            // 敵にダメージを与える処理
-            int damage = 10; // 攻撃のダメージ量
-            enemyStatus.TakeDamage(damage);
-            Debug.Log("敵に10のダメージ");
-            EndPlayerTurn();
+            selectedCommand = commandType;
+            confirmationPanel.SetActive(true);
+            EnableCommandButtons(false);
         }
     }
 
-    void OnSkillButtonClicked()
+    void OnDoButtonClicked()
     {
-        if (playerStatus.IsTurn() && playerStatus.UseSkill())
+        switch (selectedCommand)
         {
-            // スキルを使用する処理
-            bool skillSuccessful = Random.value < 0.8f; // 80%の確率でスキル成功
+            case CommandType.Attack:
+                PerformAttack();
+                break;
+            case CommandType.Skill:
+                PerformSkill();
+                break;
+            case CommandType.Item:
+                UseItem();
+                break;
+        }
+        EndPlayerTurn();
+    }
 
+    void OnDontButtonClicked()
+    {
+        selectedCommand = CommandType.None;
+        confirmationPanel.SetActive(false);
+        EnableCommandButtons(true);
+    }
+
+    void PerformAttack()
+    {
+        int damage = 10; // 攻撃のダメージ量
+        enemyStatus.TakeDamage(damage);
+        Debug.Log("敵に10のダメージ");
+    }
+
+    void PerformSkill()
+    {
+        if (playerStatus.UseSkill())
+        {
+            bool skillSuccessful = Random.value < 0.8f; // 80%の確率でスキル成功
             TurnManager.Instance.SetSkillSuccessful(skillSuccessful);
 
             if (skillSuccessful)
@@ -48,8 +87,6 @@ public class PlayerCommand : MonoBehaviour
             {
                 Debug.Log("失敗");
             }
-
-            EndPlayerTurn();
         }
         else
         {
@@ -57,23 +94,20 @@ public class PlayerCommand : MonoBehaviour
         }
     }
 
-    void OnItemButtonClicked()
+    void UseItem()
     {
-        if (playerStatus.IsTurn() && playerStatus.itemCount > 0)
+        if (playerStatus.itemCount > 0)
         {
-            // HPを回復する処理
             int healAmount = 20; // 回復量
             playerStatus.Heal(healAmount);
             playerStatus.itemCount--; // アイテムを1つ消費
             Debug.Log("HPを20回復");
-            playerStatus.UpdateUI(); // UIを更新
+            playerStatus.UpdateUI();
 
             if (playerStatus.itemCount <= 0)
             {
-                itemButton.interactable = false; // アイテムがなくなったらボタンを無効にする
+                itemButton.interactable = false;
             }
-
-            EndPlayerTurn();
         }
         else
         {
@@ -83,6 +117,14 @@ public class PlayerCommand : MonoBehaviour
 
     void EndPlayerTurn()
     {
+        confirmationPanel.SetActive(false);
         TurnManager.Instance.EndPlayerTurn();
+    }
+
+    public void EnableCommandButtons(bool enable)
+    {
+        attackButton.interactable = enable;
+        skillButton.interactable = enable;
+        itemButton.interactable = enable;
     }
 }
